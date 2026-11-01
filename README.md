@@ -311,56 +311,7 @@ A escolha das tecnologias deverá priorizar simplicidade, desempenho, manutenç�
 
 ---
 
-## 12. Etapas de desenvolvimento
-
-O desenvolvimento será dividido em etapas.
-
-### Etapa 1 — Estrutura inicial
-
-- [ ] Criar a estrutura do projeto.
-- [ ] Desenvolver a interface azul.
-- [ ] Implementar a área de conversa.
-- [ ] Implementar o envio de mensagens.
-- [ ] Criar o cabeçalho.
-- [ ] Implementar o histórico básico.
-
-### Etapa 2 — Integração com IA
-
-- [ ] Integrar um modelo de linguagem.
-- [ ] Implementar processamento de mensagens.
-- [ ] Implementar gerenciamento de contexto.
-- [ ] Criar tratamento de erros.
-- [ ] Implementar respostas em Markdown.
-
-### Etapa 3 — Pesquisa
-
-- [ ] Implementar pesquisa externa.
-- [ ] Identificar solicitações que exigem pesquisa.
-- [ ] Priorizar fontes oficiais.
-- [ ] Apresentar referências.
-- [ ] Organizar resultados.
-
-### Etapa 4 — Análise de código
-
-- [ ] Implementar leitura de arquivos.
-- [ ] Implementar análise de código.
-- [ ] Identificar possíveis erros.
-- [ ] Implementar sugestões de correção.
-- [ ] Implementar análise de estrutura.
-- [ ] Implementar recomendações de otimização.
-
-### Etapa 5 — Finalização
-
-- [ ] Melhorar a interface.
-- [ ] Otimizar o desempenho.
-- [ ] Implementar testes.
-- [ ] Revisar segurança.
-- [ ] Produzir documentação.
-- [ ] Preparar apresentação para portfólio.
-
----
-
-## 13. Objetivo como projeto de portfólio
+## 12. Objetivo como projeto de portfólio
 
 A BIA4vs também possui finalidade acadêmica e demonstrativa.
 
@@ -382,7 +333,7 @@ A intenção é apresentar uma aplicação funcional, com escopo bem definido e 
 
 ---
 
-## 14. Critérios de sucesso
+## 13. Critérios de sucesso
 
 A BIA4vs será considerada funcional quando conseguir:
 
@@ -399,7 +350,7 @@ A BIA4vs será considerada funcional quando conseguir:
 
 ---
 
-## 15. Considerações finais
+## 14. Considerações finais
 
 A BIA4vs é uma inteligência artificial simplificada, desenvolvida para atuar como ferramenta de pesquisa e análise de códigos de uma IA pessoal.
 
