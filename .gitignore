@@ -1,2 +1,25 @@
+# Modelos locais e bancos de dados
 *.gguf
+*.db
+*.sqlite
+*.sqlite3
+
+# Python cache e build
 __pycache__/
+*.py[cod]
+*$py.class
+build/
+dist/
+*.egg-info/
+
+# Ambientes virtuais e variáveis locais
+.venv/
+venv/
+env/
+.env
+
+# IDEs e sistema operacional
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
