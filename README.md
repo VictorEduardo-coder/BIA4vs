@@ -1,365 +1,118 @@
-# BIA4vs
+# 🤖 BIA4vs — Assistente Desktop de Pesquisa Técnica e Análise de Código
 
-### Pesquisar. Analisar. Desenvolver.
+![Python](https://img.shields.io/badge/Python_3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![PyQt5](https://img.shields.io/badge/PyQt5-41CD52?style=for-the-badge&logo=qt&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
 
-Uma inteligência artificial simplificada, desenvolvida para auxiliar em pesquisas, programação e análise de códigos de uma IA pessoal.
+> **Pesquisar. Analisar. Desenvolver.**  
+> Aplicação desktop modular em **Python (PyQt5)** voltada para consultas técnicas, revisão de arquivos de código-fonte e organização local de histórico de conversas.
 
----
-
-## 1. Sobre o projeto
-
-A **BIA4vs** é uma inteligência artificial simplificada, desenvolvida com o objetivo de oferecer suporte técnico em pesquisas, desenvolvimento de software e análise de códigos relacionados a projetos de inteligência artificial pessoal.
-
-Sua principal finalidade é funcionar como uma ferramenta auxiliar para investigar problemas, compreender estruturas de programação, analisar arquivos, identificar erros e sugerir melhorias em códigos existentes.
-
-Diferentemente de uma assistente pessoal completa, a BIA4vs possui uma proposta mais restrita e objetiva: atuar como uma ferramenta especializada de pesquisa e análise técnica.
-
-O projeto também possui finalidade demonstrativa, sendo desenvolvido como parte de um portfólio de desenvolvimento de software e integração com tecnologias de inteligência artificial.
-
-## 2. Objetivo principal
-
-A BIA4vs foi projetada para auxiliar no desenvolvimento e na manutenção de uma IA pessoal, oferecendo recursos para:
-
-- Pesquisar documentações e informações técnicas.
-- Analisar códigos-fonte.
-- Identificar possíveis erros de programação.
-- Investigar problemas de funcionamento.
-- Sugerir correções e otimizações.
-- Simplificar estruturas de código.
-- Analisar arquitetura de projetos.
-- Auxiliar na compreensão de bibliotecas e dependências.
-- Produzir explicações e documentação técnica.
-
-A proposta é reduzir o tempo necessário para investigar problemas e facilitar o processo de desenvolvimento de sistemas baseados em inteligência artificial.
-
-## 3. Funcionalidades
-
-### 3.1. Pesquisa técnica
-
-A BIA4vs poderá realizar pesquisas sobre:
-
-- Linguagens de programação.
-- Bibliotecas e frameworks.
-- Documentações oficiais.
-- APIs.
-- Algoritmos.
-- Arquiteturas de software.
-- Tecnologias relacionadas à inteligência artificial.
-- Soluções para problemas técnicos.
-
-Quando uma solicitação exigir informações atualizadas, a IA deverá utilizar mecanismos de pesquisa externa.
-
-As fontes oficiais e documentações técnicas devem ser priorizadas.
-
-### 3.2. Análise de código
-
-Uma das principais funcionalidades do projeto.
-
-A BIA4vs deverá ser capaz de interpretar códigos e identificar possíveis problemas, incluindo:
-
-- Erros de sintaxe.
-- Problemas lógicos.
-- Código redundante.
-- Funções desnecessárias.
-- Problemas estruturais.
-- Dependências.
-- Oportunidades de otimização.
-- Possibilidades de refatoração.
-
-Também deverá apresentar sugestões de correção e explicar os motivos das alterações recomendadas.
-
-### 3.3. Assistência à programação
-
-Além de analisar códigos existentes, a BIA4vs poderá auxiliar na criação de novas implementações.
-
-Entre suas capacidades:
-
-- Criação de funções e classes.
-- Desenvolvimento de algoritmos.
-- Geração de consultas SQL.
-- Auxílio na construção de APIs.
-- Explicação de estruturas de dados.
-- Sugestões de bibliotecas.
-- Resolução de problemas de compilação.
-- Produção de documentação.
-
-### 3.4. Análise de arquivos
-
-O sistema deverá permitir o envio de arquivos para análise.
-
-Formatos prioritários:
-
-| Formato | Utilização |
-|---|---|
-| `.java` | Código Java |
-| `.py` | Código Python |
-| `.js` | JavaScript |
-| `.ts` | TypeScript |
-| `.html` | Estrutura web |
-| `.css` | Estilização |
-| `.c` | Linguagem C |
-| `.cpp` | C++ |
-| `.sql` | Consultas SQL |
-| `.json` | Dados estruturados |
-| `.xml` | Dados e configurações |
-| `.md` | Documentação |
-| `.txt` | Arquivos de texto |
-| `.pdf` | Documentação técnica |
-
-Futuramente, poderá oferecer suporte à análise de projetos completos e arquivos compactados.
+<p align="center">
+  <img src="./docs/images/bia4vs-interface.webp" alt="BIA4vs — Interface Desktop em PyQt5" width="84%" />
+</p>
 
 ---
 
-## 4. Linguagens prioritárias
+## Sobre o Projeto
 
-A BIA4vs terá como foco inicial:
+A **BIA4vs** foi desenvolvida para atuar como uma ferramenta desktop objetiva de apoio à programação e pesquisa técnica. Em vez de tentar ser uma assistente genérica de sistema operacional, ela concentra-se em:
 
-1. Java.
-2. Python.
-3. JavaScript.
-4. HTML.
-5. CSS.
-6. C.
-7. C++.
-8. SQL.
-9. TypeScript.
-
-O suporte poderá ser ampliado conforme a evolução do projeto.
+- **Envio e inspeção de arquivos técnicos:** Suporte para leitura de arquivos de código, documentação e PDFs (`.java`, `.py`, `.js`, `.ts`, `.html`, `.css`, `.c`, `.cpp`, `.sql`, `.json`, `.xml`, `.md`, `.txt`, `.pdf`) com limite de segurança de 2 MB por anexo.
+- **Processamento assíncrono na interface:** Uso de `QThread` (`AIWorker`) para manter a UI responsiva enquanto consulta pesquisa web, analisa anexos ou aguarda resposta do modelo.
+- **Pesquisa externa sob demanda:** Integração com `duckduckgo-search` para buscar referências atualizadas quando a pergunta exige contexto externo.
+- **Fallback para diagnóstico estático offline:** Caso não haja acesso ao provedor de IA externo nem a um servidor local (**Ollama**), a aplicação ainda executa análise estática local sobre os arquivos anexados.
+- **Histórico local persistido:** Armazenamento de sessões e mensagens em **SQLite** (criado automaticamente em `bia4vs_history.db`, fora do versionamento Git), mantendo janela de contexto de até 12 mensagens por conversa.
+- **Renderização técnica:** Respostas formatadas em Markdown com destaque de sintaxe via **Pygments** em tema escuro azulado.
 
 ---
 
-## 5. Interface
-
-A BIA4vs utilizará uma interface desktop minimalista, com identidade visual predominantemente azul.
-
-### Características visuais
-
-- Fundo azul-escuro.
-- Painéis em tons de azul.
-- Destaques em azul elétrico e ciano.
-- Tipografia moderna.
-- Área central ampla para conversas.
-- Campo de mensagens na parte inferior.
-- Histórico de conversas.
-- Botão para anexar arquivos.
-- Formatação de respostas em Markdown.
-- Blocos de código com destaque de sintaxe.
-
-A interface deverá priorizar legibilidade, simplicidade e facilidade de utilização.
-
-O objetivo é oferecer uma experiência semelhante à de um chat moderno, sem elementos visuais desnecessários.
-
----
-
-## 6. Arquitetura proposta
-
-O projeto deverá possuir uma arquitetura modular, permitindo manutenção e expansão sem comprometer sua simplicidade.
-
-### Organização dos módulos
-
-| Módulo | Responsabilidade |
-|---|---|
-| Core de IA | Processamento das solicitações e geração de respostas |
-| Pesquisa | Consultas externas e recuperação de informações |
-| Análise de código | Interpretação e diagnóstico de códigos |
-| Arquivos | Leitura e gerenciamento de anexos |
-| Conversas | Histórico e gerenciamento de sessões |
-| Contexto | Manutenção das informações relevantes da conversa |
-| Interface | Apresentação visual e interação com o usuário |
-
-### Estrutura sugerida
+## Arquitetura Modular
 
 ```text
 BIA4vs/
-│
 ├── app/
-│   ├── main
-│   │
-│   ├── interface/
-│   │   ├── chat
-│   │   ├── sidebar
-│   │   ├── header
-│   │   └── components
-│   │
+│   ├── main.py                      # Inicialização da janela principal PyQt5
 │   ├── core/
-│   │   ├── ai_engine
-│   │   ├── conversation_manager
-│   │   └── context_manager
-│   │
-│   ├── research/
-│   │   ├── search_engine
-│   │   ├── source_manager
-│   │   └── documentation
-│   │
+│   │   ├── ai_engine.py             # Worker assíncrono (QThread), chamadas HTTP e fallback offline
+│   │   └── context_manager.py       # Montagem do prompt de sistema, histórico e anexos
 │   ├── code_analysis/
-│   │   ├── parser
-│   │   ├── analyzer
-│   │   ├── diagnostics
-│   │   └── refactoring
-│   │
+│   │   └── analyzer.py              # Diagnóstico estático de arquivos de código anexados
 │   ├── files/
-│   │   ├── file_reader
-│   │   └── attachment_manager
-│   │
+│   │   └── attachment_manager.py    # Validação de extensões/tamanho e leitura (inclui pypdf)
+│   ├── interface/
+│   │   ├── chat.py                  # Área de conversa com renderização Markdown/Pygments
+│   │   ├── header.py                # Barra superior e indicador de status
+│   │   ├── sidebar.py               # Navegação e histórico de sessões
+│   │   └── styles.py                # Paleta e stylesheet QSS da interface
+│   ├── research/
+│   │   └── search_engine.py         # Busca externa via DuckDuckGo e formatação de contexto
 │   └── storage/
-│       ├── database
-│       └── conversation_history
-│
-├── assets/
-│   ├── icons/
-│   └── styles/
-│
+│       └── conversation_history.py  # Persistência das conversas e mensagens em SQLite
 ├── config/
-├── tests/
-│
+│   └── settings.py                  # Configurações, limites, extensões permitidas e system prompt
+├── docs/images/
+│   └── bia4vs-interface.webp        # Captura da interface desktop
 ├── requirements.txt
-└── README.md
+└── LICENSE
 ```
 
-Essa estrutura é uma proposta inicial e poderá ser adaptada às tecnologias escolhidas durante a implementação.
+---
+
+## Tecnologias Utilizadas
+
+- **Linguagem:** Python 3.10+
+- **Interface Gráfica:** PyQt5
+- **Persistência Local:** SQLite (`sqlite3`)
+- **Pesquisa e Leitura de Arquivos:** `duckduckgo-search`, `pypdf`, `requests`
+- **Formatação de Respostas:** `markdown`, `Pygments`
+- **Integração com LLMs:** Endpoint HTTP compatível com formato OpenAI (provedor externo gratuito ou servidor **Ollama** local)
 
 ---
 
-## 7. Memória e contexto
+## Como Executar
 
-A BIA4vs utilizará um sistema simplificado de memória conversacional.
+### 1. Clone o repositório e crie um ambiente virtual
 
-O objetivo não é desenvolver uma memória autônoma complexa, mas permitir que a IA mantenha informações necessárias para dar continuidade às pesquisas e análises.
+```bash
+git clone https://github.com/VictorEduardo-coder/BIA4vs.git
+cd BIA4vs
+python3 -m venv .venv
+source .venv/bin/activate  # No Windows: .venv\Scripts\activate
+```
 
-Funcionalidades previstas:
+### 2. Instale as dependências
 
-- Manutenção do contexto da conversa atual.
-- Recuperação de mensagens anteriores.
-- Associação de arquivos à conversa.
-- Continuidade de análises técnicas.
-- Histórico de conversas.
-- Possibilidade de iniciar uma nova sessão.
+```bash
+pip install -r requirements.txt
+```
 
----
+### 3. (Opcional) Configure um modelo local via Ollama
 
-## 8. Personalidade e comportamento
+Por padrão, a aplicação tenta o endpoint remoto configurado em `config/settings.py` e faz fallback para um servidor local compatível com a API OpenAI (como o **Ollama** em `http://localhost:11434/v1/chat/completions`). Você pode sobrescrever essas opções com variáveis de ambiente:
 
-A BIA4vs deverá possuir uma comunicação profissional, objetiva e técnica.
+```bash
+export BIA4VS_LOCAL_URL="http://localhost:11434/v1/chat/completions"
+export BIA4VS_MODEL="llama3"
+```
 
-Características:
+### 4. Inicie a aplicação
 
-- Respostas claras.
-- Linguagem direta.
-- Explicações organizadas.
-- Precisão técnica.
-- Transparência sobre limitações.
-- Exemplos práticos quando necessários.
+```bash
+python3 -m app.main
+```
 
-A IA deverá evitar pesquisas desnecessárias e diferenciar informações confirmadas de hipóteses.
-
-Não deverá afirmar que executou, testou ou verificou um código quando isso não tiver realmente acontecido.
-
----
-
-## 9. Segurança
-
-Como a BIA4vs trabalhará com códigos e arquivos, deverá seguir medidas básicas de segurança.
-
-- Não executar códigos automaticamente.
-- Não modificar arquivos sem autorização.
-- Não excluir arquivos sem autorização.
-- Não executar comandos perigosos silenciosamente.
-- Proteger credenciais e chaves de API.
-- Validar arquivos recebidos.
-- Controlar o acesso aos arquivos.
-- Utilizar ambientes isolados caso seja implementada execução de código.
-
-A análise de código deve ser independente de sua execução.
+O banco de dados local `bia4vs_history.db` será criado automaticamente na primeira execução.
 
 ---
 
-## 10. O que a BIA4vs não pretende ser
+## Princípios de Segurança Adotados
 
-A BIA4vs não foi projetada para substituir uma assistente pessoal completa.
-
-Por isso, não faz parte de sua proposta implementar:
-
-- Monitoramento contínuo do computador.
-- Observação da tela.
-- Assistência autônoma ao sistema operacional.
-- Personalidade emocional avançada.
-- Memória emocional.
-- Sistema de relacionamentos.
-- Interação por voz complexa.
-- Mascote ou Olho digital.
-- Modo Pet.
-- Automação geral do computador.
-
-Seu foco permanece em pesquisa, programação e análise técnica.
+- A análise de arquivos é estritamente passiva: a aplicação **não executa código enviado** nem modifica arquivos locais automaticamente.
+- Extensões aceitas e tamanho máximo (2 MB) são validados em `config/settings.py` antes da leitura.
+- O arquivo de histórico local (`*.db`) é mantido no `.gitignore` para evitar versionamento acidental de conversas pessoais.
 
 ---
 
-## 11. Tecnologias
+## Licença
 
-As tecnologias definitivas serão definidas durante a implementação.
-
-A arquitetura deverá permitir integração com:
-
-- Modelos de linguagem (LLMs).
-- APIs de inteligência artificial.
-- Mecanismos de pesquisa.
-- Bibliotecas de análise de código.
-- Sistemas de armazenamento.
-- Frameworks de interface desktop.
-
-A escolha das tecnologias deverá priorizar simplicidade, desempenho, manutenção e facilidade de instalação.
-
----
-
-## 12. Objetivo como projeto de portfólio
-
-A BIA4vs também possui finalidade acadêmica e demonstrativa.
-
-O projeto busca demonstrar conhecimentos relacionados a:
-
-- Desenvolvimento de software.
-- Arquitetura modular.
-- Interfaces desktop.
-- Inteligência artificial.
-- Integração com APIs.
-- Processamento de linguagem natural.
-- Pesquisa automatizada.
-- Análise de código.
-- Manipulação de arquivos.
-- Gerenciamento de dados.
-- Segurança e tratamento de exceções.
-
-A intenção é apresentar uma aplicação funcional, com escopo bem definido e implementação organizada.
-
----
-
-## 13. Critérios de sucesso
-
-A BIA4vs será considerada funcional quando conseguir:
-
-1. Receber perguntas e responder utilizando um modelo de IA.
-2. Pesquisar informações externas quando necessário.
-3. Consultar documentação técnica.
-4. Analisar códigos enviados.
-5. Identificar possíveis erros.
-6. Sugerir melhorias.
-7. Explicar estruturas de programação.
-8. Trabalhar com arquivos anexados.
-9. Manter o histórico das conversas.
-10. Funcionar com uma interface estável e intuitiva.
-
----
-
-## 14. Considerações finais
-
-A BIA4vs é uma inteligência artificial simplificada, desenvolvida para atuar como ferramenta de pesquisa e análise de códigos de uma IA pessoal.
-
-Seu objetivo é oferecer suporte técnico durante o desenvolvimento, manutenção e aperfeiçoamento de sistemas de inteligência artificial.
-
-O projeto prioriza uma arquitetura simples, interface minimalista, baixo consumo de recursos e funcionalidades realmente necessárias.
-
-Não pretende ser uma assistente pessoal completa, mas uma ferramenta especializada, funcional e tecnicamente organizada.
-
-**BIA4vs — Pesquisar. Analisar. Desenvolver.**
-
-*Uma IA auxiliar, criada para investigar, compreender e melhorar código.*
+Distribuído sob a licença **MIT**. Consulte o arquivo [LICENSE](./LICENSE) para mais detalhes.
