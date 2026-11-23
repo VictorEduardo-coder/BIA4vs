@@ -4,8 +4,8 @@ from config.settings import DB_PATH
 
 
 class ConversationHistory:
-    def __init__(self):
-        self.db_path = str(DB_PATH)
+    def __init__(self, db_path=None):
+        self.db_path = str(db_path if db_path is not None else DB_PATH)
         self._init_db()
 
     def _get_connection(self):

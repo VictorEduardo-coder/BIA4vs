@@ -3,6 +3,7 @@
 ![Python](https://img.shields.io/badge/Python_3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![PyQt5](https://img.shields.io/badge/PyQt5-41CD52?style=for-the-badge&logo=qt&logoColor=white)
 ![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
+[![CI](https://github.com/VictorEduardo-coder/BIA4vs/actions/workflows/ci.yml/badge.svg)](https://github.com/VictorEduardo-coder/BIA4vs/actions/workflows/ci.yml)
 
 > **Pesquisar. Analisar. Desenvolver.**  
 > Aplicação desktop modular em **Python (PyQt5)** voltada para consultas técnicas, revisão de arquivos de código-fonte e organização local de histórico de conversas.
@@ -102,6 +103,18 @@ python3 -m app.main
 ```
 
 O banco de dados local `bia4vs_history.db` será criado automaticamente na primeira execução.
+
+---
+
+## Testes Automatizados e CI
+
+A suíte de testes unitários usa a biblioteca padrão `unittest` (sem depender de interface gráfica ou serviços externos) cobrindo análise estática (`CodeAnalyzer`), validação/leitura de anexos (`AttachmentManager`), persistência SQLite isolada (`ConversationHistory`) e montagem da janela de contexto (`ContextManager`):
+
+```bash
+python3 -m unittest discover -s tests -v
+```
+
+Os testes também são executados automaticamente no **GitHub Actions** (`.github/workflows/ci.yml`) em Python 3.11 e 3.12 a cada `push` ou `pull request`.
 
 ---
 
