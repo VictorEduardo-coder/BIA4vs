@@ -94,6 +94,9 @@ Por padrão, a aplicação tenta o endpoint remoto configurado em `config/settin
 ```bash
 export BIA4VS_LOCAL_URL="http://localhost:11434/v1/chat/completions"
 export BIA4VS_MODEL="llama3"
+# Para impedir qualquer envio de dados para provedores remotos (modo estritamente local):
+export BIA4VS_LOCAL_ONLY="true"
+export BIA4VS_TIMEOUT="45"
 ```
 
 ### 4. Inicie a aplicação
@@ -108,7 +111,12 @@ O banco de dados local `bia4vs_history.db` será criado automaticamente na prime
 
 ## Testes Automatizados e CI
 
-A suíte de testes unitários usa a biblioteca padrão `unittest` (sem depender de interface gráfica ou serviços externos) cobrindo análise estática (`CodeAnalyzer`), validação/leitura de anexos (`AttachmentManager`), persistência SQLite isolada (`ConversationHistory`) e montagem da janela de contexto (`ContextManager`):
+A suíte de testes unitários usa `unittest` com mocks HTTP determinísticos (sem depender de interface gráfica nem de APIs externas), cobrindo:
+
+- `test_code_analysis.py`: análise estática preliminar (`CodeAnalyzer`) de Python (AST), Java/C e alertas SQL (`DELETE`/`UPDATE` sem `WHERE`).
+- `test_attachments.py`: validação de extensões aceitas, limite de 2 MB e leitura segura (`AttachmentManager`).
+- `test_storage_and_context.py`: CRUD SQLite isolado (`ConversationHistory`) e janela de contexto (`ContextManager`).
+- `test_ai_engine_and_privacy.py`: detecção de segredos em anexos/prompts com bloqueio de envio externo, modo `BIA4VS_LOCAL_ONLY`, fallback entre provedor remoto e Ollama diante de HTTP 500/429, timeout, falha de conexão/DNS, JSON malformado, resposta vazia, cancelamento e diagnóstico offline.
 
 ```bash
 python3 -m unittest discover -s tests -v
@@ -118,11 +126,12 @@ Os testes também são executados automaticamente no **GitHub Actions** (`.githu
 
 ---
 
-## Princípios de Segurança Adotados
+## Princípios de Segurança e Privacidade Adotados
 
-- A análise de arquivos é estritamente passiva: a aplicação **não executa código enviado** nem modifica arquivos locais automaticamente.
-- Extensões aceitas e tamanho máximo (2 MB) são validados em `config/settings.py` antes da leitura.
-- O arquivo de histórico local (`*.db`) é mantido no `.gitignore` para evitar versionamento acidental de conversas pessoais.
+- **Bloqueio de segredos antes de envio remoto:** `scan_sensitive_content()` inspeciona prompts e anexos em busca de chaves privadas PEM, tokens AWS/API, headers `Bearer` e credenciais hardcoded; quando detectados, bloqueia o envio ao provedor externo e direciona apenas para processamento local/offline com aviso explícito.
+- **Modo somente local (`BIA4VS_LOCAL_ONLY=true`):** desativa totalmente chamadas a provedores remotos e buscas externas.
+- **Análise estritamente passiva:** a aplicação não executa código enviado nem modifica arquivos locais automaticamente.
+- **Higiene local:** extensões e tamanho máximo (2 MB) são validados em `config/settings.py`, e o banco de histórico (`*.db`) permanece ignorado no `.gitignore`.
 
 ---
 

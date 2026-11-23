@@ -4,9 +4,11 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 DB_PATH = BASE_DIR / "bia4vs_history.db"
 
-FREE_AI_URL = "https://text.pollinations.ai/openai"
+FREE_AI_URL = os.getenv("BIA4VS_REMOTE_URL", "https://text.pollinations.ai/openai")
 LOCAL_AI_URL = os.getenv("BIA4VS_LOCAL_URL", "http://localhost:11434/v1/chat/completions")
 AI_MODEL = os.getenv("BIA4VS_MODEL", "openai")
+LOCAL_ONLY = os.getenv("BIA4VS_LOCAL_ONLY", "false").strip().lower() in {"1", "true", "yes", "on"}
+REQUEST_TIMEOUT_SECONDS = int(os.getenv("BIA4VS_TIMEOUT", "45"))
 
 MAX_CONTEXT_MESSAGES = 12
 MAX_FILE_SIZE_BYTES = 2 * 1024 * 1024
